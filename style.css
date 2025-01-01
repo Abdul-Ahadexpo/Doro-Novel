@@ -19,6 +19,9 @@ body {
 #lgctn {
   align-items: center;
 }
+#lgctn button {
+  margin-top: 20px;
+}
 /* Buttons */
 #logout-btn,
 #login-btn {
