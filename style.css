@@ -172,3 +172,39 @@ body {
 #searchcontain {
   justify-content: center;
 }
+#view-my-novels,
+#upload-novel {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* View My Novels Button */
+#view-my-novels {
+  background: linear-gradient(135deg, #42a5f5, #478ed1);
+}
+
+#view-my-novels:hover {
+  background: linear-gradient(135deg, #478ed1, #42a5f5);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Upload Novel Button */
+#upload-novel {
+  background: linear-gradient(135deg, #ff7043, #ff8a65);
+}
+
+#upload-novel:hover {
+  background: linear-gradient(135deg, #ff8a65, #ff7043);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
