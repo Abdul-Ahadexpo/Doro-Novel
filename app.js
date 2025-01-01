@@ -128,6 +128,7 @@ async function toggleLike(novelId) {
     loadNovels();
   }
 }
+
 // Update filterNovels to reflect likes and search query
 const filterNovels = async () => {
   const searchQuery = searchBar.value.toLowerCase();
@@ -173,24 +174,29 @@ const filterNovels = async () => {
           </h3>
           <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
           <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
-            ${userLiked ? "👍🏻Liked" : "👍🏻Like"} (${likeCount})
+            ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
           </button>
         `;
         novelListContainer.appendChild(novelItem);
+
+        document.querySelectorAll("h3[data-id]").forEach((title) => {
+          title.addEventListener("click", (e) => {
+            const novelId = e.target.getAttribute("data-id");
+            viewChapters(novelId);
+          });
+        });
       }
     }
 
-    attachEventListeners(); // Re-attach event listeners for titles and like buttons
+    attachEventListeners(); // Re-attach event listeners for like buttons
   }
 };
-
 // Add event listeners
 searchBar.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     filterNovels();
   }
 });
-
 searchButton.addEventListener("click", filterNovels);
 
 // Event listener for "View My Novels"
