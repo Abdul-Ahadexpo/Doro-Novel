@@ -128,8 +128,7 @@ async function toggleLike(novelId) {
     loadNovels();
   }
 }
-
-// Update filterNovels to reflect likes
+// Update filterNovels to reflect likes and search query
 const filterNovels = async () => {
   const searchQuery = searchBar.value.toLowerCase();
   const novelsRef = firebase.database().ref("novels");
@@ -139,42 +138,46 @@ const filterNovels = async () => {
     novelListContainer.innerHTML = ""; // Clear the list before appending filtered results
     for (let key in novels) {
       const novel = novels[key];
-      const likeCount = novel.likes ? Object.keys(novel.likes).length : 0;
-      const userLiked =
-        novel.likes && firebase.auth().currentUser?.uid in novel.likes;
 
-      const novelItem = document.createElement("div");
-      novelItem.classList.add(
-        "p-6",
-        "bg-gradient-to-r",
-        "from-purple-700",
-        "via-pink-500",
-        "to-red-500",
-        "text-white",
-        "rounded-lg",
-        "shadow-2xl",
-        "mb-6",
-        "transition-transform",
-        "transform",
-        "hover:scale-110",
-        "hover:shadow-2xl",
-        "hover:border-4",
-        "hover:border-cyan-400",
-        "hover:bg-gradient-to-r",
-        "hover:from-green-400",
-        "hover:via-blue-500",
-        "hover:to-purple-600"
-      );
-      novelItem.innerHTML = `
-        <h3 class="text-black text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
-          ${novel.title}
-        </h3>
-        <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
-        <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
-          ${userLiked ? "👍🏻Liked" : "👍🏻Like"} (${likeCount})
-        </button>
-      `;
-      novelListContainer.appendChild(novelItem);
+      // Check if the search query matches any part of the novel's title
+      if (novel.title.toLowerCase().includes(searchQuery)) {
+        const likeCount = novel.likes ? Object.keys(novel.likes).length : 0;
+        const userLiked =
+          novel.likes && firebase.auth().currentUser?.uid in novel.likes;
+
+        const novelItem = document.createElement("div");
+        novelItem.classList.add(
+          "p-6",
+          "bg-gradient-to-r",
+          "from-purple-700",
+          "via-pink-500",
+          "to-red-500",
+          "text-white",
+          "rounded-lg",
+          "shadow-2xl",
+          "mb-6",
+          "transition-transform",
+          "transform",
+          "hover:scale-110",
+          "hover:shadow-2xl",
+          "hover:border-4",
+          "hover:border-cyan-400",
+          "hover:bg-gradient-to-r",
+          "hover:from-green-400",
+          "hover:via-blue-500",
+          "hover:to-purple-600"
+        );
+        novelItem.innerHTML = `
+          <h3 class="text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+            ${novel.title}
+          </h3>
+          <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
+          <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
+            ${userLiked ? "👍🏻Liked" : "👍🏻Like"} (${likeCount})
+          </button>
+        `;
+        novelListContainer.appendChild(novelItem);
+      }
     }
 
     attachEventListeners(); // Re-attach event listeners for titles and like buttons
@@ -230,12 +233,12 @@ viewMyNovelsBtn.addEventListener("click", async () => {
         "hover:to-purple-600"
       );
       novelItem.innerHTML = `
-        <h3 class="text-black text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+        <h3 class="text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
           ${novel.title}
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
         <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
-          ${userLiked ? "👎🏿 Unlike" : "👍🏻 Like"} (${likeCount})
+          ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
         </button>
       `;
       novelListContainer.appendChild(novelItem);
@@ -284,7 +287,6 @@ postBtn.addEventListener("click", () => {
   }
 });
 
-// Load Novels
 async function loadNovels() {
   const novelsRef = firebase.database().ref("novels");
   const snapshot = await novelsRef.once("value");
@@ -295,7 +297,7 @@ async function loadNovels() {
       const novel = novels[key];
       const likeCount = novel.likes ? Object.keys(novel.likes).length : 0;
       const userLiked =
-        novel.likes && firebase.auth().currentUser.uid in novel.likes;
+        novel.likes && firebase.auth().currentUser?.uid in novel.likes;
 
       const novelItem = document.createElement("div");
       novelItem.classList.add(
@@ -320,7 +322,7 @@ async function loadNovels() {
         "hover:to-purple-600"
       );
       novelItem.innerHTML = `
-        <h3 class="text-black text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+        <h3 class="text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
           ${novel.title}
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
@@ -328,6 +330,29 @@ async function loadNovels() {
           ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
         </button>
       `;
+
+      // Add edit and delete buttons if the logged-in user is the owner of the novel
+      const user = firebase.auth().currentUser;
+      if (user && novel.userId === user.uid) {
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.classList.add("btn", "btn-outline", "mt-2", "text-blue-500");
+        editButton.addEventListener("click", () => editNovel(key));
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.classList.add(
+          "btn",
+          "btn-outline",
+          "mt-2",
+          "text-red-500"
+        );
+        deleteButton.addEventListener("click", () => deleteNovel(key));
+
+        novelItem.appendChild(editButton);
+        novelItem.appendChild(deleteButton);
+      }
+
       novelListContainer.appendChild(novelItem);
     }
 
@@ -381,6 +406,74 @@ async function viewChapters(novelId) {
       novelListContainer.classList.remove("hidden");
       novelPostContainer.classList.remove("hidden");
     });
+  }
+}
+
+function editNovel(novelId) {
+  const novelRef = firebase.database().ref("novels/" + novelId);
+  novelRef.once("value").then((snapshot) => {
+    if (snapshot.exists()) {
+      const novel = snapshot.val();
+      // Pre-fill the form with the current novel data
+      novelTitle.value = novel.title;
+      novelContent.value = novel.chapters[0]?.content || "";
+
+      // Update the post button to save changes
+      postBtn.textContent = "Update Novel";
+      postBtn.removeEventListener("click", postNovel); // Remove the original event listener
+      postBtn.addEventListener("click", () => updateNovel(novelId)); // Add new listener for update
+    }
+  });
+}
+
+function updateNovel(novelId) {
+  const title = novelTitle.value.trim();
+  const content = novelContent.value.trim();
+  if (title && content) {
+    const user = firebase.auth().currentUser;
+    const novelRef = firebase.database().ref("novels/" + novelId);
+
+    // Get the current data for the chapters
+    novelRef.once("value").then((snapshot) => {
+      if (snapshot.exists()) {
+        const novel = snapshot.val();
+        const updatedChapters = novel.chapters || [];
+
+        // Update the first chapter (or append a new chapter if necessary)
+        updatedChapters[0] = { content: content }; // If you want to update the first chapter
+
+        // If you want to add a new chapter instead, you can push to the array
+        // updatedChapters.push({ content: content });
+
+        // Update the novel data
+        novelRef
+          .update({
+            title: title,
+            chapters: updatedChapters,
+          })
+          .then(() => {
+            // Reload novels after update
+            loadNovels();
+
+            // Reset the form and button
+            novelTitle.value = "";
+            novelContent.value = "";
+            postBtn.textContent = "Post Novel"; // Reset button text to "Post Novel"
+          })
+          .catch((error) => {
+            console.error("Error updating novel:", error);
+          });
+      }
+    });
+  }
+}
+
+function deleteNovel(novelId) {
+  const confirmDelete = confirm("Are you sure you want to delete this novel?");
+  if (confirmDelete) {
+    const novelRef = firebase.database().ref("novels/" + novelId);
+    novelRef.remove();
+    loadNovels(); // Reload the novels after deletion
   }
 }
 
