@@ -355,7 +355,11 @@ async function viewChapters(novelId) {
 }
 
 function displayChapter(chapters, index) {
-  chapterList.innerHTML = `<p>Chapter ${index + 1}: ${
-    chapters[index].content
-  }</p>`;
+  // Convert the novel content to HTML by replacing line breaks with <br> tags
+  const contentWithLineBreaks = chapters[index].content.replace(/\n/g, "<br>");
+
+  // Display the content with line breaks
+  chapterList.innerHTML = `<p>Chapter ${
+    index + 1
+  }: <br>${contentWithLineBreaks}</p>`;
 }
