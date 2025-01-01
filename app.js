@@ -83,12 +83,14 @@ searchBarContainer.className = "flex items-center mb-4";
 
 const searchBar = document.createElement("input");
 searchBar.type = "text";
+searchBar.id = "search-bar"; // Added id
 searchBar.placeholder = "Search Novels...";
 searchBar.className =
   "p-2 border border-gray-300 rounded w-full mr-2 text-white";
 searchBarContainer.appendChild(searchBar);
 
 const searchButton = document.createElement("button");
+searchButton.id = "search-button"; // Added id
 searchButton.textContent = "Search";
 searchButton.className = "p-2 bg-blue-500 text-white rounded hover:bg-blue-700";
 searchBarContainer.appendChild(searchButton);
