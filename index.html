@@ -1,172 +1,114 @@
-/* Responsive Design */
-body {
-  font-family: "Inter", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  line-height: 1.5;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  color: #333;
-  transition: background 0.3s ease;
-}
-.container {
-  max-width: 830px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-#login-container {
-  align-items: center;
-}
-#lgctn {
-  align-items: center;
-}
-#lgctn button {
-  margin-top: 20px;
-}
-/* Buttons */
-#logout-btn,
-#login-btn {
-  max-width: fit-content;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 25px;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s, background 0.3s ease;
-}
+<!DOCTYPE html>
+<html lang="en">
 
-#logout-btn:hover,
-#login-btn:hover {
-  background: linear-gradient(135deg, #2575fc, #6a11cb);
-  transform: scale(1.05);
-}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doro Novel</title>
 
-/* Card Component */
-.card {
-  border-radius: 15px;
-  background: linear-gradient(135deg, #ffffff, #f0f4ff);
-  padding: 1.5rem;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
+  <link rel="stylesheet" href="style.css">
 
-/* Profile Section */
-#profile-container {
-  display: flex;
-  align-items: center;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #ffffff, #e8f0fe);
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s ease;
-}
-#profile-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
 
-/* Novel Items */
-#novel-list > div {
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #ffffff, #eef2ff);
-  border: 2px solid transparent;
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s ease;
-}
-#novel-list > div:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* Chapter Container */
-#chapter-container {
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #ffffff, #f9fbff);
-  border-radius: 15px;
-  border: 2px solid transparent;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s ease;
-}
-#chapter-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
 
-/* Post Button */
-#post-btn {
-  max-width: fit-content;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 25px;
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s, background 0.3s ease;
-}
 
-#post-btn:hover {
-  background: linear-gradient(135deg, #feb47b, #ff7e5f);
-  transform: scale(1.05);
-}
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
-#search-bar {
-  width: 100%;
-  max-width: 400px;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: 2px solid transparent;
-  border-radius: 25px;
-  outline: none;
-  background: linear-gradient(to right, #fff, #f3f3f3);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
+  <script src="https://kit.fontawesome.com/5fc4420cfa.js" crossorigin="anonymous"></script>
 
-#search-bar:focus {
-  border-color: #4caf50;
-  background: #000000;
-  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
-}
+  <script type="module" src="app.js" defer></script>
 
-#search-button {
-  padding: 12px 20px;
-  margin-left: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s, background 0.3s ease;
-}
+</head>
 
-#search-button:hover {
-  background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center">
+  <div class="container mx-auto p-6 max-w-screen-lg">
 
-#search-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-#searchcontain {
-  justify-content: center;
-}
+    <!-- Authentication Status -->
+    <div id="auth-status" class="text-center mb-4 text-gray-700"></div>
+
+    <!-- Login Section -->
+    <div id="login-container" class="card w-full bg-white shadow-lg p-6 mb-6 rounded-lg">
+      <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Welcome to NovelVerse</h2>
+      <button id="login-btn"
+        class="btn btn-primary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-blue-600">
+        Login with Google
+      </button>
+    </div>
+
+    <!-- User Profile Section -->
+    <div id="profile-container"
+      class="flex flex-row justify-between card w-full bg-white shadow-lg p-6 mb-6 rounded-lg">
+
+      <!-- Home Button -->
+      <button onclick="location.reload();"><i class="fa-solid fa-house text-cyan-500"></i></button>
+
+
+      <div class="flex items-center mb-4">
+        <img id="profile-pic" class="rounded-full w-16 h-16 mr-4 border-2 border-primary shadow-md cursor-pointer"
+          alt="Profile Picture" />
+        <p id="profile-name" class="text-xl font-bold text-gray-800"></p>
+      </div>
+      <div id="profile-dropdown" class="hidden space-y-4">
+        <button id="view-my-novels"
+          class="btn btn-primary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-blue-600">My
+          Novels</button>
+        <button id="upload-novel"
+          class="btn btn-success w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-600">
+          Upload
+        </button>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('profile-pic').addEventListener('click', function () {
+        const dropdown = document.getElementById('profile-dropdown');
+        dropdown.classList.toggle('hidden');
+      });
+    </script>
+
+    <!-- Novel Post Section -->
+    <div id="novel-post-container" class="hidden card w-full bg-white shadow-lg p-6 mb-6 rounded-lg">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Create a New Novel</h3>
+      <input id="novel-title"
+        class="input input-bordered w-full mb-4 py-2 px-3 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Enter Novel Title" />
+      <textarea id="novel-content"
+        class="textarea textarea-bordered w-full h-32 mb-4 py-2 px-3 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Write your novel here..."></textarea>
+      <button id="post-btn"
+        class="btn btn-success w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-600">
+        Post Novel
+      </button>
+    </div>
+
+    <!-- Novel List Section -->
+    <div id="novel-list" class="card w-full bg-white shadow-lg p-6 rounded-lg">
+      <h3 class="text-xl font-bold text-gray-800 mb-4">Available Novels</h3>
+      <div id="novel-items" class="space-y-4">
+        <!-- Novel items will be dynamically loaded here -->
+      </div>
+    </div>
+
+    <!-- Chapter Display Section -->
+    <div id="chapter-container" class="hidden card w-full bg-white shadow-lg p-6 mt-6 rounded-lg">
+      <h2 id="chapter-title" class="text-2xl font-bold text-gray-800 mb-4">Chapters</h2>
+      <div id="chapter-list" class="space-y-4"></div>
+      <button id="next-btn"
+        class="btn btn-primary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hidden hover:bg-blue-600 mt-4">
+        Next Chapter
+      </button>
+      <button id="back-btn"
+        class="btn btn-secondary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-gray-600 mt-4 transform hover:scale-105 hover:shadow-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 animate-pulse">
+        Back to Home
+      </button>
+    </div>
+  </div>
+</body>
+
+
+
+</html>
