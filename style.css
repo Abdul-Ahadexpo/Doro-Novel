@@ -131,6 +131,7 @@ body {
   font-size: 16px;
   border: 2px solid transparent;
   border-radius: 25px;
+  color: black;
   outline: none;
   background: linear-gradient(to right, #fff, #f3f3f3);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -139,6 +140,7 @@ body {
 
 #search-bar:focus {
   border-color: #4caf50;
+  color: white;
   background: #000000;
   box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
 }
