@@ -98,7 +98,38 @@ novelListContainer.parentElement.insertBefore(
   novelListContainer
 );
 
-// Function to filter novels
+// Toggle Like functionality
+async function toggleLike(novelId) {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("Please log in to like a novel.");
+    return;
+  }
+
+  const novelRef = firebase.database().ref("novels/" + novelId);
+  const snapshot = await novelRef.once("value");
+  if (snapshot.exists()) {
+    const novel = snapshot.val();
+    const userLikesRef = firebase
+      .database()
+      .ref(`novels/${novelId}/likes/${user.uid}`);
+
+    // Check if the user has already liked the novel
+    const userLiked = novel.likes && user.uid in novel.likes;
+    if (userLiked) {
+      // If user has liked, remove their like
+      userLikesRef.remove();
+    } else {
+      // If user hasn't liked, add their like
+      userLikesRef.set(true);
+    }
+
+    // Reload the novels after toggling like
+    loadNovels();
+  }
+}
+
+// Update filterNovels to reflect likes
 const filterNovels = async () => {
   const searchQuery = searchBar.value.toLowerCase();
   const novelsRef = firebase.database().ref("novels");
@@ -108,45 +139,44 @@ const filterNovels = async () => {
     novelListContainer.innerHTML = ""; // Clear the list before appending filtered results
     for (let key in novels) {
       const novel = novels[key];
-      if (novel.title.toLowerCase().includes(searchQuery)) {
-        const likeCount = novel.likes ? Object.keys(novel.likes).length : 0;
-        const userLiked =
-          novel.likes && firebase.auth().currentUser?.uid in novel.likes;
+      const likeCount = novel.likes ? Object.keys(novel.likes).length : 0;
+      const userLiked =
+        novel.likes && firebase.auth().currentUser?.uid in novel.likes;
 
-        const novelItem = document.createElement("div");
-        novelItem.classList.add(
-          "p-6",
-          "bg-gradient-to-r",
-          "from-purple-700",
-          "via-pink-500",
-          "to-red-500",
-          "text-white",
-          "rounded-lg",
-          "shadow-2xl",
-          "mb-6",
-          "transition-transform",
-          "transform",
-          "hover:scale-110",
-          "hover:shadow-2xl",
-          "hover:border-4",
-          "hover:border-cyan-400",
-          "hover:bg-gradient-to-r",
-          "hover:from-green-400",
-          "hover:via-blue-500",
-          "hover:to-purple-600"
-        );
-        novelItem.innerHTML = `
-          <h3 class="text-black text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
-            ${novel.title}
-          </h3>
-          <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
-          <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
-            ${userLiked ? "👎🏿 Unlike" : "👍🏻 Like"} (${likeCount})
-          </button>
-        `;
-        novelListContainer.appendChild(novelItem);
-      }
+      const novelItem = document.createElement("div");
+      novelItem.classList.add(
+        "p-6",
+        "bg-gradient-to-r",
+        "from-purple-700",
+        "via-pink-500",
+        "to-red-500",
+        "text-white",
+        "rounded-lg",
+        "shadow-2xl",
+        "mb-6",
+        "transition-transform",
+        "transform",
+        "hover:scale-110",
+        "hover:shadow-2xl",
+        "hover:border-4",
+        "hover:border-cyan-400",
+        "hover:bg-gradient-to-r",
+        "hover:from-green-400",
+        "hover:via-blue-500",
+        "hover:to-purple-600"
+      );
+      novelItem.innerHTML = `
+        <h3 class="text-black text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+          ${novel.title}
+        </h3>
+        <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
+        <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
+          ${userLiked ? "👍🏻Liked" : "👍🏻Like"} (${likeCount})
+        </button>
+      `;
+      novelListContainer.appendChild(novelItem);
     }
+
     attachEventListeners(); // Re-attach event listeners for titles and like buttons
   }
 };
@@ -295,7 +325,7 @@ async function loadNovels() {
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
         <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
-          ${userLiked ? "👎🏿 Unlike" : "👍🏻 Like"} (${likeCount})
+          ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
         </button>
       `;
       novelListContainer.appendChild(novelItem);
