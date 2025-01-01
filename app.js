@@ -80,6 +80,7 @@ uploadNovelBtn.addEventListener("click", () => {
 // Add a search bar and button above the novel list
 const searchBarContainer = document.createElement("div");
 searchBarContainer.className = "flex items-center mb-4";
+searchBarContainer.id = "searchcontain";
 
 const searchBar = document.createElement("input");
 searchBar.type = "text";
