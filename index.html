@@ -18,7 +18,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
-
+  <script src="https://kit.fontawesome.com/5fc4420cfa.js" crossorigin="anonymous"></script>
 
   <script type="module" src="app.js" defer></script>
 
@@ -26,6 +26,7 @@
 
 <body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center">
   <div class="container mx-auto p-6 max-w-screen-lg">
+
     <!-- Authentication Status -->
     <div id="auth-status" class="text-center mb-4 text-gray-700"></div>
 
@@ -39,7 +40,13 @@
     </div>
 
     <!-- User Profile Section -->
-    <div id="profile-container" class="card w-full bg-white shadow-lg p-6 mb-6 rounded-lg">
+    <div id="profile-container"
+      class="flex flex-row justify-between card w-full bg-white shadow-lg p-6 mb-6 rounded-lg">
+
+      <!-- Home Button -->
+      <button onclick="location.reload();"><i class="fa-solid fa-house text-cyan-500"></i></button>
+
+
       <div class="flex items-center mb-4">
         <img id="profile-pic" class="rounded-full w-16 h-16 mr-4 border-2 border-primary shadow-md cursor-pointer"
           alt="Profile Picture" />
