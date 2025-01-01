@@ -136,7 +136,7 @@ body {
 
 #search-bar:focus {
   border-color: #4caf50;
-  background: #ffffff;
+  background: #000000;
   box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
 }
 
