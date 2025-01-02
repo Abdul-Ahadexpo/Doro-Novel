@@ -188,6 +188,8 @@ const filterNovels = async () => {
             viewChapters(novelId);
           });
         });
+      } else {
+        novelListContainer.innerHTML = `<p class="text-gray-700">No novels Named "<i>${searchQuery}</i>"</p>`;
       }
     }
 
@@ -269,7 +271,7 @@ viewMyNovelsBtn.addEventListener("click", async () => {
       });
     });
   } else {
-    novelListContainer.innerHTML = `<p class="text-gray-700">No novels available.</p>`;
+    novelListContainer.innerHTML = `<p class="text-gray-700">No novels available. Upload A novel</p>`;
   }
   novelListContainer.classList.remove("hidden");
   novelPostContainer.classList.add("hidden");
