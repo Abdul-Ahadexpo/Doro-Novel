@@ -208,3 +208,30 @@ body {
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+#novel-title {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  color: black;
+  outline: none;
+  border-color: #478ed1;
+  background: linear-gradient(to right, #fff, #bfbbff);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#novel-title:focus {
+  border-color: #5956ff;
+  color: white;
+  background: #000000;
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+}
+#novel-content {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  color: black;
+  outline: none;
+  border-color: #478ed1;
+  background: linear-gradient(to right, #fff, #bfbbff);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
