@@ -240,6 +240,3 @@ body {
   border: 1px solid blue;
   background: linear-gradient(to right, #eafffe, #e5dbff);
 }
-#novel-list div > button {
-  color: black;
-}
