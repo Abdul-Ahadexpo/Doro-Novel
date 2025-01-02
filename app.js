@@ -176,7 +176,7 @@ const filterNovels = async () => {
             ${novel.title}
           </h3>
           <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
-          <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
+          <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400  text-black" data-id="${key}">
             ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
           </button>
         `;
@@ -248,7 +248,7 @@ viewMyNovelsBtn.addEventListener("click", async () => {
           ${novel.title}
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
-        <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
+        <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 text-black" data-id="${key}">
           ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
         </button>
       `;
@@ -337,7 +337,7 @@ async function loadNovels() {
           ${novel.title}
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
-        <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 hover:text-black" data-id="${key}">
+        <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400    text-black" data-id="${key}">
           ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
         </button>
       `;
