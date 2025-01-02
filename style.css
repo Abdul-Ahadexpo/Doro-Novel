@@ -235,3 +235,11 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
+#novel-list div {
+  outline: none;
+  border: 1px solid blue;
+  background: linear-gradient(to right, #eafffe, #e5dbff);
+}
+#novel-list div > button {
+  color: black;
+}
