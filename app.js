@@ -172,7 +172,7 @@ const filterNovels = async () => {
           "hover:to-purple-600"
         );
         novelItem.innerHTML = `
-          <h3 class="text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+          <h3 class="text-xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
             ${novel.title}
           </h3>
           <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
@@ -242,7 +242,7 @@ viewMyNovelsBtn.addEventListener("click", async () => {
         "hover:to-purple-600"
       );
       novelItem.innerHTML = `
-        <h3 class="text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+        <h3 class="text-xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
           ${novel.title}
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
@@ -331,7 +331,7 @@ async function loadNovels() {
         "hover:to-purple-600"
       );
       novelItem.innerHTML = `
-        <h3 class="text-2xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
+        <h3 class="text-xl font-extrabold cursor-pointer mb-2 underline text-blue-500" data-id="${key}">
           ${novel.title}
         </h3>
         <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
