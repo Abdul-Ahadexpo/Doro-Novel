@@ -108,10 +108,75 @@
         class="btn btn-secondary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-gray-600 mt-4 transform hover:scale-105 hover:shadow-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 animate-pulse">
         Back to Home
       </button>
+
+
+      <!-- DropDown Comment section -->
+      <div id="comments-{novelId}" class="hidden mt-4">
+        <div id="commentList-{novelId}" class="space-y-2"></div>
+        <input id="comment-input-{novelId}" type="text" placeholder="Write a comment..."
+          class="input input-bordered w-full mt-2 cpin" />
+        <button onclick="submitComment('{novelId}')" class="btn btn-primary mt-2">Post Comment</button>
+      </div>
+      <button onclick="toggleCommentSection('{novelId}')" class="btn btn-link text-blue-600 underline mt-2">
+        View Comments
+      </button>
+      <!-- DropDown Comment section -->
+
     </div>
   </div>
 </body>
 
+<script>
+  function toggleCommentSection(novelId) {
+    const section = document.getElementById(`comments-${novelId}`);
+    section.classList.toggle("hidden");
 
+    if (!section.classList.contains("hidden")) {
+      displayComments(novelId);
+    }
+  }
+
+  function submitComment(novelId) {
+    const inputField = document.getElementById(`comment-input-${novelId}`);
+    const commentText = inputField.value.trim();
+    if (commentText === "") return;
+
+    const user = firebase.auth().currentUser;
+    const commentsRef = firebase.database().ref(`comments/${novelId}`);
+    commentsRef.push({
+      text: commentText,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      username: user?.displayName || user?.email,
+      profilePic: user?.photoURL || 'default-profile-pic-url'
+    });
+
+    inputField.value = "";
+    displayComments(novelId);
+  }
+
+  function displayComments(novelId) {
+    const commentList = document.getElementById(`commentList-${novelId}`);
+    const commentsRef = firebase.database().ref(`comments/${novelId}`);
+
+    commentsRef.orderByChild("timestamp").on("value", (snapshot) => {
+      commentList.innerHTML = "";
+
+      snapshot.forEach((commentSnapshot) => {
+        const commentData = commentSnapshot.val();
+        const commentHTML = `
+        <div class="comment flex items-start gap-3 mt-2 p-2 bg-gray-100 rounded-lg">
+          <img src="${commentData.profilePic}" alt="${commentData.username}'s avatar" class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <p class="font-bold text-gray-900">${commentData.username}</p>
+            <p class="text-gray-700">${commentData.text}</p>
+          </div>
+        </div>
+      `;
+        commentList.innerHTML += commentHTML;
+      });
+    });
+  }
+
+</script>
 
 </html>
