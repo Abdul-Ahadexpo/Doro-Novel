@@ -170,49 +170,49 @@
         const dropdown = document.getElementById(`user-dropdown-${novelId}`);
         const query = inputField.value.trim();
 
-        // If the input is empty, hide the dropdown
-        if (!query) {
+        // Check if the last character is '@'
+        const atSymbolDetected = query.endsWith('@');
+
+        if (!atSymbolDetected) {
+          // Hide the dropdown if '@' is not detected
           dropdown.classList.add("hidden");
           return;
         }
 
-        // Show the dropdown
+        // Show the dropdown and list all users
         dropdown.classList.remove("hidden");
 
-        // Get the list of all users
         const usersRef = firebase.database().ref('users');
         usersRef.once('value').then((snapshot) => {
           dropdown.innerHTML = ''; // Clear previous user names
 
           snapshot.forEach((userSnapshot) => {
             const user = userSnapshot.val();
-            const userName = user.displayName; //email or user.displayName
-            const userPic = user.photoURL || 'default-profile-pic-url'; // Default profile picture URL if none exists
+            const userName = user.displayName || user.email;
+            const userPic = user.photoURL || 'default-profile-pic-url'; // Default profile picture
 
-            // Only show users whose names match the input
-            if (userName.toLowerCase().includes(query.toLowerCase())) {
-              const userOption = document.createElement("div");
-              userOption.classList.add("cursor-pointer", "p-2", "flex", "items-center", "gap-2");
+            // Create a dropdown item for each user
+            const userOption = document.createElement("div");
+            userOption.classList.add("cursor-pointer", "p-2", "flex", "items-center", "gap-2");
 
-              // Create an image element for the user profile picture
-              const userImg = document.createElement('img');
-              userImg.src = userPic;
-              userImg.alt = `${userName}'s avatar`;
-              userImg.classList.add('w-6', 'h-6', 'rounded-full'); // Adjust size
+            // Add profile picture
+            const userImg = document.createElement('img');
+            userImg.src = userPic;
+            userImg.alt = `${userName}'s avatar`;
+            userImg.classList.add('w-6', 'h-6', 'rounded-full');
 
-              // Add the profile picture and user name to the dropdown item
-              userOption.appendChild(userImg);
-              userOption.appendChild(document.createTextNode(userName));
+            // Add user name
+            const userNameText = document.createTextNode(userName);
+            userOption.appendChild(userImg);
+            userOption.appendChild(userNameText);
 
-              // Attach click event to select user
-              userOption.onclick = () => selectUser(novelId, userName, userPic);
+            // Handle user selection
+            userOption.onclick = () => selectUser(novelId, userName, userPic);
 
-              dropdown.appendChild(userOption);
-            }
+            dropdown.appendChild(userOption);
           });
         });
       }
-
 
       // Function to handle user selection from the dropdown
       function selectUser(novelId, userName, userPic) {
