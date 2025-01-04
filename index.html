@@ -81,7 +81,7 @@
           <!-- Comment input with user selection dropdown -->
           <div class="relative">
             <input id="comment-input-{novelId}" type="text" placeholder="Write a comment..."
-              class="input input-bordered w-full mt-2 cpin" oninput="showUserDropdown('{novelId}')" />
+              class="input input-bordered w-full mt-2" oninput="showUserDropdown('{novelId}')" />
 
             <!-- Dropdown for user selection -->
             <div id="user-dropdown-{novelId}"
@@ -98,7 +98,6 @@
         </button>
       </div>
     </div>
-    <!-- DropDown Comment section -->
 
     <script>
       function toggleCommentSection(novelId) {
@@ -151,14 +150,14 @@
           snapshot.forEach((commentSnapshot) => {
             const commentData = commentSnapshot.val();
             const commentHTML = `
-        <div class="comment flex items-start gap-3 mt-2 p-2 bg-gray-100 rounded-lg">
-          <img src="${commentData.profilePic}" alt="${commentData.username}'s avatar" class="w-10 h-10 rounded-full object-cover">
-          <div>
-            <p class="font-bold text-gray-900">${commentData.username}</p>
-            <p class="text-gray-700">${commentData.text}</p>
+          <div class="comment flex items-start gap-3 mt-2 p-2 bg-gray-100 rounded-lg">
+            <img src="${commentData.profilePic}" alt="${commentData.username}'s avatar" class="w-10 h-10 rounded-full object-cover">
+            <div>
+              <p class="font-bold text-gray-900">${commentData.username}</p>
+              <p class="text-gray-700">${commentData.text}</p>
+            </div>
           </div>
-        </div>
-      `;
+        `;
             commentList.innerHTML += commentHTML;
           });
         });
@@ -186,30 +185,58 @@
 
           snapshot.forEach((userSnapshot) => {
             const user = userSnapshot.val();
-            const userName = user.displayName || user.email;
+            const userName = user.email; // or user.displayName
+            const userPic = user.photoURL || 'default-profile-pic-url'; // Default profile picture URL if none exists
 
             // Only show users whose names match the input
             if (userName.toLowerCase().includes(query.toLowerCase())) {
               const userOption = document.createElement("div");
-              userOption.classList.add("cursor-pointer", "p-2");
-              userOption.textContent = userName;
-              userOption.onclick = () => selectUser(novelId, userName);
+              userOption.classList.add("cursor-pointer", "p-2", "flex", "items-center", "gap-2");
+
+              // Create an image element for the user profile picture
+              const userImg = document.createElement('img');
+              userImg.src = userPic;
+              userImg.alt = `${userName}'s avatar`;
+              userImg.classList.add('w-6', 'h-6', 'rounded-full'); // Adjust size
+
+              // Add the profile picture and user name to the dropdown item
+              userOption.appendChild(userImg);
+              userOption.appendChild(document.createTextNode(userName));
+
+              // Attach click event to select user
+              userOption.onclick = () => selectUser(novelId, userName, userPic);
+
               dropdown.appendChild(userOption);
             }
           });
         });
       }
 
+
       // Function to handle user selection from the dropdown
-      function selectUser(novelId, userName) {
+      function selectUser(novelId, userName, userPic) {
         const inputField = document.getElementById(`comment-input-${novelId}`);
         inputField.value = `@${userName}: `;
+
+        // Add the user's profile picture to the input field
+        const inputContainer = document.getElementById(`comment-input-container-${novelId}`);
+        const img = document.createElement('img');
+        img.src = userPic; // Assuming userPic is the URL of the profile picture
+        img.alt = `${userName}'s avatar`;
+        img.classList.add('w-6', 'h-6', 'rounded-full', 'mr-2'); // Adjust the size of the profile picture
+
+        // Insert the profile picture before the input text
+        inputContainer.innerHTML = ''; // Clear existing content
+        inputContainer.appendChild(img); // Add profile picture
+        inputContainer.appendChild(inputField); // Re-add the input field after the profile picture
 
         // Hide the dropdown after user selection
         const dropdown = document.getElementById(`user-dropdown-${novelId}`);
         dropdown.classList.add("hidden");
       }
+
     </script>
+
 
 
 
