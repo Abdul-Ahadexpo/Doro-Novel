@@ -46,7 +46,10 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 // Firebase Authentication State Change
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged(async (user) => {
+  // Show loading spinner
+  novelListContainer.innerHTML = `<span class="loading loading-dots loading-lg m-auto"></span>`;
+
   if (user) {
     loginContainer.classList.add("hidden");
     novelPostContainer.classList.remove("hidden");
@@ -54,19 +57,22 @@ firebase.auth().onAuthStateChanged((user) => {
 
     profilePic.src = user.photoURL;
     profileName.textContent = user.displayName;
-    authStatus.innerHTML = `<p id="lgctn"  class="text-gray-700 flex flex-col">Welcome, ${user.displayName}! <button id="logout-btn" class="btn btn-error py-2 px-4 bg-red-500 text-white font-semibold rounded-lg">Logout</button></p>`;
+    authStatus.innerHTML = `<p id="lgctn" class="text-gray-700 flex flex-col">Welcome, ${user.displayName}! <button id="logout-btn" class="btn btn-error py-2 px-4 bg-red-500 text-white font-semibold rounded-lg">Logout</button></p>`;
 
     const logoutBtn = document.getElementById("logout-btn");
     logoutBtn.addEventListener("click", () => {
       firebase.auth().signOut();
     });
 
-    loadNovels();
+    // Load novels after showing spinner
+    await loadNovels();
   } else {
     loginContainer.classList.remove("hidden");
     novelPostContainer.classList.add("hidden");
     profileContainer.classList.add("hidden");
-    authStatus.innerHTML = `<p class="text-gray-700">Please log in to post novels.</p>`;
+
+    // Clear the spinner and show login message
+    novelListContainer.innerHTML = `<p class="text-gray-700">Please log in to post novels.</p>`;
   }
 });
 
