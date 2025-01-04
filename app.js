@@ -509,7 +509,5 @@ function displayChapter(chapters, index) {
   const contentWithLineBreaks = chapters[index].content.replace(/\n/g, "<br>");
 
   // Display the content with line breaks
-  chapterList.innerHTML = `<p>Chapter ${
-    index + 1
-  }: <br>${contentWithLineBreaks}</p>`;
+  chapterList.innerHTML = `<p><h1 class="font-semibold italic text-lg">~Start~</h1> <br>${contentWithLineBreaks}</p>`;
 }
