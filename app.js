@@ -132,19 +132,24 @@ async function toggleLike(novelId) {
   }
 }
 
-// Update filterNovels to reflect likes and search query
 const filterNovels = async () => {
   const searchQuery = searchBar.value.toLowerCase();
   const novelsRef = firebase.database().ref("novels");
   const snapshot = await novelsRef.once("value");
+
   if (snapshot.exists()) {
     const novels = snapshot.val();
     novelListContainer.innerHTML = ""; // Clear the list before appending filtered results
+
+    let foundMatch = false; // Track if any novel matches the search query
+
     for (let key in novels) {
       const novel = novels[key];
 
       // Check if the search query matches any part of the novel's title
       if (novel.title.toLowerCase().includes(searchQuery)) {
+        foundMatch = true; // Set to true if a match is found
+
         const likeCount = novel.likes ? Object.keys(novel.likes).length : 0;
         const userLiked =
           novel.likes && firebase.auth().currentUser?.uid in novel.likes;
@@ -176,26 +181,31 @@ const filterNovels = async () => {
             ${novel.title}
           </h3>
           <p class="italic mb-4 text-gray-500">by ${novel.userName}</p>
-          <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400  text-black" data-id="${key}">
+          <button class="btn btn-outline mt-2 like-btn transition-colors duration-300 hover:bg-cyan-400 text-black" data-id="${key}">
             ${userLiked ? "👍🏻 Liked" : "👍🏻 Like"} (${likeCount})
           </button>
         `;
         novelListContainer.appendChild(novelItem);
 
-        document.querySelectorAll("h3[data-id]").forEach((title) => {
-          title.addEventListener("click", (e) => {
+        // Add click event for viewing chapters
+        novelItem
+          .querySelector("h3[data-id]")
+          .addEventListener("click", (e) => {
             const novelId = e.target.getAttribute("data-id");
             viewChapters(novelId);
           });
-        });
-      } else {
-        novelListContainer.innerHTML = `<p class="text-gray-700">No novels Named "<i>${searchQuery}</i>"</p>`;
       }
+    }
+
+    // If no matches were found, show the "No novels" message
+    if (!foundMatch) {
+      novelListContainer.innerHTML = `<p class="text-gray-700">No novels Named "<i>${searchQuery}</i>"</p>`;
     }
 
     attachEventListeners(); // Re-attach event listeners for like buttons
   }
 };
+
 // Add event listeners
 searchBar.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
