@@ -186,7 +186,7 @@
 
           snapshot.forEach((userSnapshot) => {
             const user = userSnapshot.val();
-            const userName = user.email; // or user.displayName
+            const userName = user.displayName; //email or user.displayName
             const userPic = user.photoURL || 'default-profile-pic-url'; // Default profile picture URL if none exists
 
             // Only show users whose names match the input
