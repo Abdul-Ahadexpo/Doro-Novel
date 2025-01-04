@@ -103,17 +103,26 @@
 
     <script>
       function toggleCommentSection(novelId) {
-        // Hide any currently open comment sections
-        const allCommentSections = document.querySelectorAll('.comment-section');
-        allCommentSections.forEach(section => section.classList.add("hidden"));
-
-        // Show the clicked novel's comment section
+        // Get the specific comment section
         const section = document.getElementById(`comments-${novelId}`);
-        section.classList.remove("hidden");
 
-        // Fetch and display comments for this specific novel
-        displayComments(novelId);
+        // Toggle visibility
+        if (section.classList.contains("hidden")) {
+          // Hide other comment sections
+          const allCommentSections = document.querySelectorAll('.comment-section');
+          allCommentSections.forEach(sec => sec.classList.add("hidden"));
+
+          // Show this section
+          section.classList.remove("hidden");
+
+          // Fetch and display comments for this specific novel
+          displayComments(novelId);
+        } else {
+          // Hide the section if already shown
+          section.classList.add("hidden");
+        }
       }
+
 
       function submitComment(novelId) {
         const inputField = document.getElementById(`comment-input-${novelId}`);
