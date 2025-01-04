@@ -47,19 +47,22 @@
       <button onclick="location.reload();"><i class="fa-solid fa-house text-cyan-500"></i></button>
 
 
-      <div class="flex items-center mb-4">
+
+
+      <div class="flex items-center mb-4 flex-col">
         <img id="profile-pic" class="rounded-full w-16 h-16 mr-4 border-2 border-primary shadow-md cursor-pointer"
           alt="Profile Picture" />
         <p id="profile-name" class="text-xl font-bold text-gray-800"></p>
-      </div>
-      <div id="profile-dropdown" class="hidden space-y-4">
-        <button id="view-my-novels"
-          class="btn btn-primary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-blue-600">My
-          Novels</button>
-        <button id="upload-novel"
-          class="btn btn-success w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-600">
-          Upload
-        </button>
+
+        <div id="profile-dropdown" class="hidden space-y-4">
+          <button id="view-my-novels"
+            class="btn btn-primary w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-blue-600">My
+            Novels</button>
+          <button id="upload-novel"
+            class="btn btn-success w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-600">
+            Upload
+          </button>
+        </div>
       </div>
     </div>
 
