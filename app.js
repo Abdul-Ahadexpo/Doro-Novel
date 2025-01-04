@@ -76,6 +76,45 @@ firebase.auth().onAuthStateChanged(async (user) => {
   }
 });
 
+
+
+
+// After successful user authentication
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    const usersRef = firebase.database().ref('users');
+    const userId = user.uid;
+    const userData = {
+      displayName: user.displayName || user.email,
+      email: user.email
+    };
+    usersRef.child(userId).set(userData);
+  }
+});
+
+// Fetch list of users
+const usersRef = firebase.database().ref('users');
+usersRef.once('value').then((snapshot) => {
+  // Handle the snapshot containing users data
+  snapshot.forEach((userSnapshot) => {
+    const user = userSnapshot.val();
+    const userName = user.displayName || user.email;
+
+    // Populate dropdown with user names
+    if (userName.toLowerCase().includes(query.toLowerCase())) {
+      const userOption = document.createElement("div");
+      userOption.classList.add("cursor-pointer", "p-2");
+      userOption.textContent = userName;
+      userOption.onclick = () => selectUser(novelId, userName);
+      dropdown.appendChild(userOption);
+    }
+  });
+});
+
+
+
+
+
 // Event listener for "Upload New Novel"
 uploadNovelBtn.addEventListener("click", () => {
   novelPostContainer.classList.remove("hidden");
