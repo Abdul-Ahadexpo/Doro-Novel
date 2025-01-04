@@ -240,3 +240,21 @@ body {
   border: 1px solid blue;
   background: linear-gradient(to right, #eafffe, #e5dbff);
 }
+/* Comment */
+.cpin {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  color: black;
+  outline: none;
+  border-color: #478ed1;
+  background: linear-gradient(to right, #fff, #bfbbff);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cpin:focus {
+  border-color: #5956ff;
+  color: white;
+  background: #000000;
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+}
