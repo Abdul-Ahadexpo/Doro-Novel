@@ -90,8 +90,8 @@
             </div>
           </div>
 
-          <button id="comment-submit-btn" onclick="submitComment('{novelId}')" class="btn btn-primary mt-2">Post
-            Comment</button>
+          <button id="comment-submit-btn" onclick="submitComment('{novelId}')" class="btn btn-primary mt-2"><i
+              class="fa-solid fa-paper-plane"></i> Post</button>
         </div>
 
         <button onclick="toggleCommentSection('{novelId}')"
@@ -124,30 +124,39 @@
       }
 
 
+      // Enhanced submitComment function to handle Enter key
       function submitComment(novelId) {
         const inputField = document.getElementById(`comment-input-${novelId}`);
         let commentText = inputField.value.trim();
 
-        // If comment is empty, don't do anything
-        if (commentText === "") return;
+        if (commentText === "") return; // Prevent empty comments
 
         const user = firebase.auth().currentUser;
         const commentsRef = firebase.database().ref(`comments/${novelId}`);
 
-        // Push the comment to the specific novel in the database
         commentsRef.push({
           text: commentText,
           timestamp: firebase.database.ServerValue.TIMESTAMP,
           username: user?.displayName || user?.email,
-          profilePic: user?.photoURL || 'default-profile-pic-url'
+          profilePic: user?.photoURL || 'default-profile-pic-url',
         });
 
-        // Clear the input field
-        inputField.value = "";
-
-        // Display updated comments for that specific novel
-        displayComments(novelId);
+        inputField.value = ""; // Clear the input
+        displayComments(novelId); // Refresh comments
       }
+
+      // Add keyup event to handle Enter key for each input field dynamically
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".cpin").forEach(inputField => {
+          inputField.addEventListener("keyup", (event) => {
+            if (event.key === "Enter") {
+              const novelId = inputField.id.split("-").pop(); // Extract novelId from input ID
+              submitComment(novelId);
+            }
+          });
+        });
+      });
+
 
       function displayComments(novelId) {
         const commentList = document.getElementById(`commentList-${novelId}`);
