@@ -81,16 +81,17 @@
           <!-- Comment input with user selection dropdown -->
           <div class="relative">
             <input id="comment-input-{novelId}" type="text" placeholder="Write a comment..."
-              class="input input-bordered w-full mt-2" oninput="showUserDropdown('{novelId}')" />
+              class="input input-bordered w-full mt-2 cpin" oninput="showUserDropdown('{novelId}')" />
 
             <!-- Dropdown for user selection -->
             <div id="user-dropdown-{novelId}"
-              class="absolute bg-white border w-full mt-1 hidden max-h-32 overflow-y-auto z-10">
+              class="absolute bg-white border w-full mt-1 hidden max-h-32 overflow-y-auto z-10 user-dropdown">
               <!-- User names will appear here -->
             </div>
           </div>
 
-          <button onclick="submitComment('{novelId}')" class="btn btn-primary mt-2">Post Comment</button>
+          <button id="comment-submit-btn" onclick="submitComment('{novelId}')" class="btn btn-primary mt-2">Post
+            Comment</button>
         </div>
 
         <button onclick="toggleCommentSection('{novelId}')" class="btn btn-link text-blue-600 underline mt-2">
