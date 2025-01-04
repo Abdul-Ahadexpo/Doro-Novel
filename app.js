@@ -79,37 +79,68 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 
 
+
+
+
+
+
+
 // After successful user authentication
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    const usersRef = firebase.database().ref('users');
+    const usersRef = firebase.database().ref("users");
     const userId = user.uid;
     const userData = {
       displayName: user.displayName || user.email,
-      email: user.email
+      email: user.email,
+      photoURL: user.photoURL || "default-profile-pic-url", // Store the user's profile image URL
     };
-    usersRef.child(userId).set(userData);
+    usersRef.child(userId).set(userData); // Save user data, including the profile image URL
   }
 });
 
 // Fetch list of users
-const usersRef = firebase.database().ref('users');
-usersRef.once('value').then((snapshot) => {
+const usersRef = firebase.database().ref("users");
+usersRef.once("value").then((snapshot) => {
   // Handle the snapshot containing users data
   snapshot.forEach((userSnapshot) => {
     const user = userSnapshot.val();
     const userName = user.displayName || user.email;
+    const userPic = user.photoURL || "default-profile-pic-url"; // Fetch the user's profile picture
 
-    // Populate dropdown with user names
+    // Populate dropdown with user names and profile pictures
     if (userName.toLowerCase().includes(query.toLowerCase())) {
       const userOption = document.createElement("div");
-      userOption.classList.add("cursor-pointer", "p-2");
-      userOption.textContent = userName;
-      userOption.onclick = () => selectUser(novelId, userName);
+      userOption.classList.add(
+        "cursor-pointer",
+        "p-2",
+        "flex",
+        "items-center",
+        "gap-2"
+      );
+
+      // Create an image element for the user profile picture
+      const userImg = document.createElement("img");
+      userImg.src = userPic;
+      userImg.alt = `${userName}'s avatar`;
+      userImg.classList.add("w-6", "h-6", "rounded-full"); // Adjust the size of the profile picture
+
+      // Add the profile picture and user name to the dropdown item
+      userOption.appendChild(userImg);
+      userOption.appendChild(document.createTextNode(userName));
+
+      // Attach click event to select user
+      userOption.onclick = () => selectUser(novelId, userName, userPic);
+
       dropdown.appendChild(userOption);
     }
   });
 });
+
+
+
+
+
 
 
 
