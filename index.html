@@ -49,7 +49,6 @@
   document.addEventListener("copy", (e) => e.preventDefault());
 </script>
 
-  
 
 
 
@@ -60,7 +59,8 @@
 
 
 
-  
+
+
 <body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center">
   <div class="container mx-auto p-6 max-w-screen-lg">
 
@@ -304,6 +304,19 @@
       });
     </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Novel Post Section -->
     <div id="novel-post-container" class="hidden card w-full bg-white shadow-lg p-6 mb-6 rounded-lg">
       <h3 class="text-lg font-semibold text-gray-800 mb-2">Create a New Novel</h3>
@@ -317,7 +330,27 @@
         class="btn btn-success w-full py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-600">
         Post Novel
       </button>
+      <!-- Toggle Button (Visible but Minimal) -->
+      <button id="toggle-novel-post" class="fixed bottom-5 right-5 p-2 bg-gray-500 text-white rounded-full text-sm">
+        Hide
+      </button>
     </div>
+
+    <script>
+      document.getElementById("toggle-novel-post").addEventListener("click", function () {
+        const novelPost = document.getElementById("novel-post-container");
+        novelPost.classList.toggle("hidden");
+      });
+    </script>
+
+
+
+
+
+
+
+
+
 
     <!-- Novel List Section -->
     <div id="novel-list" class="card w-full bg-white shadow-lg p-6 rounded-lg">
