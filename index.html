@@ -24,6 +24,43 @@
 
 </head>
 
+
+
+
+
+<style>
+  /* Disable text selection */
+  body {
+    user-select: none;
+    /* Standard */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE/Edge */
+  }
+</style>
+<script>
+  // Disable right-click
+  document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+  // Disable copying
+  document.addEventListener("copy", (e) => e.preventDefault());
+</script>
+
+  
+
+
+
+
+
+
+
+
+
+
+  
 <body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center">
   <div class="container mx-auto p-6 max-w-screen-lg">
 
